@@ -49,7 +49,7 @@ class BanditExperiment(object):
 
         :return: Experiment results (List of dicts with regret per algorithm and iteration)
         """
-        logging.debug("BanditExperiment: Starting experiment, name: " + str(self.experiment_name))
+        logging.debug("BanditExperiment: Starting experiment, name: %s", str(self.experiment_name))
         self.bandit_environment = self.bandit_environment_constructor()
         self.bandit_algorithm = self.bandit_algorithm_constructor()
 
@@ -59,8 +59,7 @@ class BanditExperiment(object):
 
         experiment_results = []
         for iteration in range(1, self.experiment_horizon+1):
-            logging.debug("BanditExperiment: Experiment iteration " + str(iteration) +
-                          ", name: " + str(self.experiment_name))
+            logging.debug("BanditExperiment: Experiment iteration %s, name: %s", str(iteration), str(self.experiment_name))
             iteration_results = self._run_iteration(iteration,
                                                     self.bandit_environment,
                                                     self.bandit_algorithm,

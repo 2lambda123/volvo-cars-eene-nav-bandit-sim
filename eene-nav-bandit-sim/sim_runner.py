@@ -86,10 +86,7 @@ def main():
     results = []
     for experiment in experiments:
         experiment_run = int(experiment.experiment_id / (len(experiments) / args.number_of_experiment_runs))
-        logging.info("Starting experiment run: " + str(experiment_run) +
-                     ", id: " + str(experiment.experiment_id) +
-                     ", name: " + str(experiment.experiment_name) +
-                     ", horizon: " + str(args.experiment_horizon))
+        logging.info("Starting experiment run: %s, id: %s, name: %s, horizon: %s", str(experiment_run), str(experiment.experiment_id), str(experiment.experiment_name), str(args.experiment_horizon))
         experiment_results = experiment.run_experiment()
         cumulative_regret = 0.
         for iteration_results in experiment_results:
@@ -97,21 +94,18 @@ def main():
             cumulative_regret = iteration_results['cumulative_regret']
         results = results + experiment_results
         experiment.teardown()
-        logging.info("Finished experiment run: " + str(experiment_run) +
-                     ", id: " + str(experiment.experiment_id) +
-                     ", name: " + str(experiment.experiment_name) +
-                     ", horizon: " + str(args.experiment_horizon))
+        logging.info("Finished experiment run: %s, id: %s, name: %s, horizon: %s", str(experiment_run), str(experiment.experiment_id), str(experiment.experiment_name), str(args.experiment_horizon))
 
     # Summarize results
     results_df = pd.DataFrame(data=results)
     logging.info("Finished bandit navigation simulation!")
 
     results_df.to_csv(args.output_dir + 'results.csv')
-    logging.info("Saved results CSV to: " + args.output_dir + 'results.csv')
+    logging.info("Saved results CSV to: %sresults.csv", args.output_dir)
 
     fig = create_regret_plot(results_df)
     fig.savefig(args.output_dir + 'regret_plot.png', bbox_inches='tight', pad_inches=0, dpi=300)
-    logging.info("Saved regret plot to: " + args.output_dir + 'regret_plot.png')
+    logging.info("Saved regret plot to: %sregret_plot.png", args.output_dir)
 
 
 def create_experiments(number_of_experiment_runs,

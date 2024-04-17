@@ -26,13 +26,13 @@ def main():
 
     logging.info('Starting charging station converter')
     graph_df = pd.read_csv(args.road_graph_csv_path)
-    logging.info('Loaded source network DataFrame, size: ' + str(graph_df.shape[0]))
+    logging.info("Loaded source network DataFrame, size: %s", str(graph_df.shape[0]))
 
     charging_station_df = pd.read_csv(args.charging_station_csv_path)
-    logging.info('Loaded source charging stations DataFrame, size: ' + str(charging_station_df.shape[0]))
+    logging.info("Loaded source charging stations DataFrame, size: %s", str(charging_station_df.shape[0]))
 
     filtered_charging_station_df = filter_charging_stations(charging_station_df)
-    logging.info('Filtered source charging stations DataFrame, size: ' + str(filtered_charging_station_df.shape[0]))
+    logging.info("Filtered source charging stations DataFrame, size: %s", str(filtered_charging_station_df.shape[0]))
 
     source_graph = create_graph(graph_df)
     nx_graph = nx.DiGraph()
@@ -49,11 +49,11 @@ def main():
     finished_consumption_arrays = list()
     for from_idx, from_station_id in enumerate(source_charging_stations):
         from_station = source_charging_stations[from_station_id]
-        logging.info('Station no. ' + str(from_idx) + ': Starting shortest path')
+        logging.info("Station no. %s: Starting shortest path", str(from_idx))
 
         predecessors, _ = nx.dijkstra_predecessor_and_distance(nx_graph, from_station['node_id'])
         distances = add_consumption_to_distances(predecessors, source_graph, from_station['node_id'])
-        logging.info('Station no. ' + str(from_idx) + ': Finished shortest path')
+        logging.info("Station no. %s: Finished shortest path", str(from_idx))
 
         time_array = np.inf * np.ones((1, len(source_charging_stations)))
         consumption_array = np.inf * np.ones((1, len(source_charging_stations)))
@@ -64,7 +64,7 @@ def main():
                 time, consumption = distances[to_node_id]
                 time_array[0, to_idx] = time
                 consumption_array[0, to_idx] = consumption
-        logging.info('Station no. ' + str(from_idx) + ': Finished charging station lookup')
+        logging.info("Station no. %s: Finished charging station lookup", str(from_idx))
 
         finished_time_arrays.append(time_array)
         finished_consumption_arrays.append(consumption_array)

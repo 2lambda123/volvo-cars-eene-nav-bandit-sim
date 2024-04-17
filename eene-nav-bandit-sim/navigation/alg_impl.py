@@ -220,10 +220,7 @@ class EpsilonGreedyNavigationBanditAlgorithm(AbstractNavigationBanditAlgorithm):
             if alpha >= 1:
                 lambda_hat = (alpha - 1.) / beta
             else:
-                logging.warning("EpsilonGreedyNavigationBanditAlgorithm: Posterior mode of queue distribution " +
-                                "lambda parameter less than or equal to 0.0: " + str((alpha - 1.) / beta) + ". " +
-                                "This might happen due to improperly chosen prior distribution parameters or " +
-                                "numerical errors. As a workaround, using lambda=" + str(EPSILON / beta))
+                logging.warning("EpsilonGreedyNavigationBanditAlgorithm: Posterior mode of queue distribution lambda parameter less than or equal to 0.0: %s. This might happen due to improperly chosen prior distribution parameters or numerical errors. As a workaround, using lambda=%s", str((alpha - 1.) / beta), str(EPSILON / beta))
                 lambda_hat = EPSILON / beta
             expected_queue_time = 1. / lambda_hat
 
@@ -239,10 +236,7 @@ class EpsilonGreedyNavigationBanditAlgorithm(AbstractNavigationBanditAlgorithm):
             if alpha0 > 1.:
                 beta_hat = (alpha0 - 1.) / beta0
             else:
-                logging.warning("EpsilonGreedyNavigationBanditAlgorithm: Posterior mode of charging distribution " +
-                                "beta parameter less than or equal to 0.0: " + str((alpha0 - 1.) / beta0) + ". " +
-                                "This might happen due to improperly chosen prior distribution parameters or " +
-                                "numerical errors. As a workaround, using beta=" + str(EPSILON / beta0))
+                logging.warning("EpsilonGreedyNavigationBanditAlgorithm: Posterior mode of charging distribution beta parameter less than or equal to 0.0: %s. This might happen due to improperly chosen prior distribution parameters or numerical errors. As a workaround, using beta=%s", str((alpha0 - 1.) / beta0), str(EPSILON / beta0))
                 beta_hat = EPSILON / beta0
 
             # MAP estimate of the expected value of the gamma weight distribution
@@ -376,8 +370,7 @@ class ThompsonSamplingNavigationBanditAlgorithm(AbstractNavigationBanditAlgorith
                     sampler = TransformedDensityRejection(miller_dist, c=0., center=mode)
                     created_sampler = True
                 except:
-                    logging.error("Could not create TransformedDensityRejection sampler (log-concave), ln_p=" +
-                                  str(ln_p) + ", q=" + str(q) + ", r=" + str(r) + ", s=" + str(s))
+                    logging.error("Could not create TransformedDensityRejection sampler (log-concave), ln_p=%s, q=%s, r=%s, s=%s", str(ln_p), str(q), str(r), str(s))
                     current_sampler_impl += 1
             else:
                 sampler = MillerDummyModeSampler(mode)
